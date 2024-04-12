@@ -40,8 +40,8 @@ class GridMap:
                         print(f"Obstacle at grid coordinates: ({x_idx}, {y_idx}, {theta_idx})")
 
 # 定义地图尺寸和分辨率
-map_size = (10, 10, 360)  # (x, y, theta)
-resolution = (1, 1, 10)  # (x_res, y_res, theta_res)
+map_size = (100, 100, 360)  # (x, y, theta)
+resolution = (10, 10, 10)  # (x_res, y_res, theta_res)
 
 # 创建栅格地图对象
 grid_map = GridMap(map_size, resolution)

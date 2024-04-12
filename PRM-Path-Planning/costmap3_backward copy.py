@@ -31,7 +31,6 @@ class VehicleModel:
 
         # 定义可能的转向角度
         angles = [0, self.max_steering_angle,-self.max_steering_angle]  # 分别表示直行、向左转、向右转
-        # angles = [0, self.max_steering_angle, math.radians(30),-math.radians(30),-self.max_steering_angle]  # 分别表示直行、向左转、向右转
 
         # 当前状态的位置和方向
         x, y, yaw = state
@@ -71,7 +70,7 @@ def hybrid_a_star(start_state, goal_state, vehicle_model, costmap, obstacles, ma
         current_node = heapq.heappop(open_list)  # 取出具有最小代价的节点
         current_state, g_cost, h_cost, parent, depth = current_node.state, current_node.g_cost, current_node.h_cost, current_node.parent, current_node.depth
 
-        if heuristic(current_state, goal_state) < 0.01:  # 当当前状态接近目标状态时停止搜索
+        if is_close_enough(current_state, goal_state):  # 当当前状态接近目标状态时停止搜索
             path = []
             while current_node:
                 path.append(current_node.state)
@@ -98,7 +97,19 @@ def hybrid_a_star(start_state, goal_state, vehicle_model, costmap, obstacles, ma
 
 # 定义启发式函数
 def heuristic(state, goal_state):
-    return math.sqrt((state[0] - goal_state[0]) ** 2 + (state[1] - goal_state[1]) ** 2)
+    position_difference = math.sqrt((state[0] - goal_state[0]) ** 2 + (state[1] - goal_state[1]) ** 2)
+    yaw_difference = abs(state[2] - goal_state[2])
+    # Normalize yaw difference to [0, pi]
+    yaw_difference = min(yaw_difference, 2 * math.pi - yaw_difference)
+    return math.sqrt(position_difference ** 2 + yaw_difference ** 2)
+
+# Define a function to check if the current state is close enough to the goal state
+def is_close_enough(current_state, goal_state):
+    position_difference = math.sqrt((current_state[0] - goal_state[0]) ** 2 + (current_state[1] - goal_state[1]) ** 2)
+    yaw_difference = abs(current_state[2] - goal_state[2])
+    # Normalize yaw difference to [0, pi]
+    yaw_difference = min(yaw_difference, 2 * math.pi - yaw_difference)
+    return position_difference < 0.01 and yaw_difference < math.radians(0.01)
 
 # 生成栅格地图和启发代价
 def generate_costmap(grid_size, goal_state):
@@ -139,8 +150,7 @@ def plot_path(path, obstacles, grid_size, costmap):
 
 # 测试
 start_state = (0, 0, 0)
-# start_state = (0, 0, math.pi / 4)
-goal_state = (5, 5, math.pi / 4)
+goal_state = (5, 5, 0)
 vehicle_model = VehicleModel()
 obstacles = [(2, 2, 0.5), (3, 3, 0.5)]  # 障碍物位置和半径
 grid_size = (10, 10)  # 栅格地图尺寸
