@@ -63,23 +63,6 @@ def plot_path(G, path):
     nx.draw_networkx_edges(G, pos, edgelist=path_edges, edge_color='red', width=2.0)  # 绘制路径
     plt.show()
 
-# # 创建有向图
-# G = nx.DiGraph()
-
-# # 添加节点和边
-# for i in range(3):
-#     for j in range(3):
-#         G.add_node((i, j))
-# for i in range(3):
-#     for j in range(3):
-#         for move in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
-#             new_state = (i + move[0], j + move[1])
-#             if 0 <= new_state[0] < 3 and 0 <= new_state[1] < 3:
-#                 G.add_edge((i, j), new_state, weight=1)
-
-# start_state = (0, 0)
-# goal_state = (2, 2)
-
 # 创建有向图
 G = nx.DiGraph()
 
@@ -97,12 +80,12 @@ for i in range(4):
 # 添加斜对角边
 for i in range(3):
     for j in range(3):
-        G.add_edge((i, j), (i+1, j+1), weight=1)
-        G.add_edge((i+1, j), (i, j+1), weight=1)
+        G.add_edge((i, j), (i+1, j+1), weight=2)
+        G.add_edge((i+1, j), (i, j+1), weight=2)
 
 # 指定起始和目标节点
 start_state = (0, 0)
-goal_state = (3, 3)
+goal_state = (2, 3)
 
 # 绘制图形
 # pos = {(x, y): (y, -x) for x in range(4) for y in range(4)}  # 位置信息
