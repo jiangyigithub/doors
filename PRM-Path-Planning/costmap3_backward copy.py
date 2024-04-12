@@ -11,7 +11,7 @@ class Node:
         self.h_cost = h_cost
         self.parent = parent
         self.depth = depth
-        # 定义节点比较方法，用于堆排序
+    # 定义节点比较方法，用于堆排序
     def __lt__(self, other):
         return (self.g_cost + self.h_cost) < (other.g_cost + other.h_cost)
 
