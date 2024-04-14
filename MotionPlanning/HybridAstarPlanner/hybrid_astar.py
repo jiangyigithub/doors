@@ -60,7 +60,7 @@ class Node:
         self.directions = directions
         self.steer = steer
         self.cost = cost
-        self.pind = pind
+        self.pind = pind # 父节点
 
 
 class Para:
@@ -278,6 +278,7 @@ def analystic_expantion(node, ngoal, P):
     gx, gy, gyaw = ngoal.x[-1], ngoal.y[-1], ngoal.yaw[-1]
 
     maxc = math.tan(C.MAX_STEER) / C.WB
+    # 调用RS曲线，以最优节点为起点来连接目标节点，并进行碰撞检测。若RS曲线无碰撞，路径规划成功！
     paths = rs.calc_all_paths(sx, sy, syaw, gx, gy, gyaw, maxc, step_size=C.MOVE_STEP)
 
     if not paths:
