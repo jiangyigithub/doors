@@ -53,7 +53,7 @@ class Node:
         self.xind = xind
         self.yind = yind
         self.yawind = yawind
-        self.direction = direction
+        self.direction = direction #1: forward -1:backward
         self.x = x
         self.y = y
         self.yaw = yaw
@@ -510,6 +510,7 @@ def main():
     y = path.y
     yaw = path.yaw
     direction = path.direction
+    print("hybird a star path:",path.direction)
 
     for k in range(len(x)):
         plt.cla()
