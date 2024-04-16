@@ -32,7 +32,7 @@ def astar(start_state, goal_state, graph):
                 path.append(current_node.state)
                 current_node = current_node.parent
             path.reverse()
-            return path
+            return path,closed_set
         
         closed_set.add(current_state)
         
@@ -63,6 +63,17 @@ def plot_path(G, path):
     nx.draw_networkx_edges(G, pos, edgelist=path_edges, edge_color='red', width=2.0)  # 绘制路径
     plt.show()
 
+def plot_path_with_explored_nodes(G, path, closed_set):
+    pos = {node: node for node in G.nodes()}  # 节点位置
+    edge_labels = {(u, v): d['weight'] for u, v, d in G.edges(data=True)}  # 边权重
+    nx.draw(G, pos, with_labels=True, node_size=700, node_color='lightblue')  # 绘制节点
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)  # 绘制边权重
+    path_edges = [(path[i], path[i+1]) for i in range(len(path)-1)]  # 路径边集合
+    nx.draw_networkx_edges(G, pos, edgelist=path_edges, edge_color='red', width=2.0)  # 绘制路径
+    closed_set_nodes = [node for node in G.nodes() if node in closed_set]
+    nx.draw_networkx_nodes(G, pos, nodelist=closed_set_nodes, node_color='blue', node_size=700)  # 绘制已探索节点
+    plt.show()
+
 # 创建有向图
 G = nx.DiGraph()
 
@@ -85,14 +96,16 @@ for i in range(3):
 
 # 指定起始和目标节点
 start_state = (0, 0)
-goal_state = (2, 3)
+goal_state = (3, 3)
 
 # 绘制图形
 # pos = {(x, y): (y, -x) for x in range(4) for y in range(4)}  # 位置信息
 # nx.draw(G, pos, with_labels=True, node_size=700, node_color='lightblue')  # 绘制节点
 # plt.show()
-path = astar(start_state, goal_state, G)
+path,closed_set = astar(start_state, goal_state, G)
 print("A*算法找到的最短路径：", path)
 
-# 绘制路径
-plot_path(G, path)
+# # 绘制路径
+# plot_path(G, path)
+# 绘制路径和已探索节点
+plot_path_with_explored_nodes(G, path, closed_set)
