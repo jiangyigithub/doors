@@ -15,7 +15,6 @@
 *.txt.user
 *.swp
 *.code-workspace
-*.docx
 *.pyc 
 
 
