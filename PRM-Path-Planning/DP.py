@@ -59,13 +59,13 @@ def visualize_grid_with_path(grid, min_cost_path):
 
 # 示例
 grid = [
-    [1, 3, 1, 5],
-    [1, 5, 1, 7],
-    [4, 2, 1, 3],
+    [1, 3, 2, 5],
+    [1, 5, 4, 7],
+    [4, 2, 2, 3],
     [5, 2, 8, 1]
 ]
-min_cost, min_cost_path = min_cost_path(grid)
+min_cost, min_path = min_cost_path(grid)
 print("最小代价路径的总代价为:", min_cost)
-print("最小代价路径为:", min_cost_path)
-visualize_grid_with_path(grid, min_cost_path)
+print("最小代价路径为:", min_path)
+visualize_grid_with_path(grid, min_path)
 
